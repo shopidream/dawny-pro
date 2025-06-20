@@ -1,0 +1,751 @@
+/* ============================================
+   LUXURY-V1 BUTTON SYSTEM
+   ============================================ */
+
+/* === DAWN 테마 PSEUDO-ELEMENT 제거 === */
+.button:not(.skip-to-content-link):not(.newsletter-form__button)::before,
+.button:not(.skip-to-content-link):not(.newsletter-form__button)::after,
+.btn::before,
+.btn::after,
+input[type="submit"]:not(.newsletter-form__button)::before,
+input[type="submit"]:not(.newsletter-form__button)::after,
+button[type="submit"]:not(.newsletter-form__button)::before,
+button[type="submit"]:not(.newsletter-form__button)::after,
+.product-form__cart-submit::before,
+.product-form__cart-submit::after,
+.product-form__submit::before,
+.product-form__submit::after,
+.shopify-payment-button__button::before,
+.shopify-payment-button__button::after,
+[class*="add-to-cart"]::before,
+[class*="add-to-cart"]::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* === LUXURY-V1 PRIMARY BUTTON STYLES === */
+.button:not(.skip-to-content-link):not(.newsletter-form__button):not(.button--secondary),
+.btn:not(.button--secondary),
+input[type="submit"]:not(.newsletter-form__button),
+button[type="submit"]:not(.newsletter-form__button),
+.shopify-payment-button__button--unbranded,
+.cart-drawer__checkout,
+.product-form__cart-submit:not(.button--secondary),
+.product-form__submit:not(.button--secondary),
+.shopify-payment-button__button,
+[class*="add-to-cart"]:not(.button--secondary),
+[class*="checkout"] {
+  --initial-gradient: linear-gradient(rgb(var(--color-button)), rgb(var(--color-button)));
+  --hover-gradient: linear-gradient(transparent, transparent);
+  --initial-background-position: 100% 0;
+  --hover-background-position: 0 0;
+  
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+  color: rgb(var(--color-button-text)) !important;
+  border: var(--buttons-border-width) solid rgba(var(--color-button), var(--buttons-border-opacity)) !important;
+  border-radius: var(--buttons-radius) !important;
+  box-sizing: border-box !important;
+  background-color: transparent !important;
+  background-image: var(--initial-gradient), var(--hover-gradient) !important;
+  background-size: 101% 101%, 0 101% !important;
+  background-position: var(--initial-background-position) !important;
+  background-repeat: no-repeat !important;
+  justify-content: center !important;
+  align-items: center !important;
+  column-gap: 1.125rem !important;
+  padding: 1rem 4rem !important;
+  min-width: auto !important;
+  min-height: auto !important;
+  width: auto !important;
+  height: 44px !important;
+  transition: 
+    background-size 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    background-position 0.45s step-end,
+    color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86) !important;
+  display: inline-flex !important;
+  position: relative !important;
+  text-decoration: none !important;
+  box-shadow: 
+    var(--buttons-shadow-horizontal-offset) 
+    var(--buttons-shadow-vertical-offset) 
+    var(--buttons-shadow-blur-radius) 
+    rgba(var(--color-shadow), var(--buttons-shadow-opacity)) !important;
+  
+  /* Typography 통합 */
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  text-transform: var(--luxury-v1-button-casing) !important;
+  letter-spacing: var(--luxury-v1-button-letter-spacing) !important;
+  font-weight: var(--luxury-v1-button-font-weight) !important;
+  font-size: 1.4rem !important;
+  line-height: 1.2 !important;
+}
+
+/* === LUXURY-V1 SECONDARY BUTTON STYLES === */
+.button.button--secondary:not(.product-form__submit) {
+  --initial-gradient: linear-gradient(transparent, transparent) !important;
+  --hover-gradient: linear-gradient(rgb(var(--color-secondary-button-text)), rgb(var(--color-secondary-button-text))) !important;
+  --initial-background-position: 0 0 !important;
+  --hover-background-position: 100% 0 !important;
+  
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+  color: rgb(var(--color-secondary-button-text)) !important;
+  border: var(--buttons-border-width) solid rgb(var(--color-secondary-button-text)) !important;
+  border-radius: var(--buttons-radius) !important;
+  box-sizing: border-box !important;
+  background-color: transparent !important;
+  background-image: var(--initial-gradient), var(--hover-gradient) !important;
+  background-size: 0 101%, 0 101% !important;
+  background-position: var(--initial-background-position) !important;
+  background-repeat: no-repeat !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 1rem 4rem !important;
+  height: 44px !important;
+  transition: 
+    background-size 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    background-position 0.45s step-end,
+    color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86) !important;
+  display: inline-flex !important;
+  position: relative !important;
+  text-decoration: none !important;
+  box-shadow: 
+    var(--buttons-shadow-horizontal-offset) 
+    var(--buttons-shadow-vertical-offset) 
+    var(--buttons-shadow-blur-radius) 
+    rgba(var(--color-shadow), var(--buttons-shadow-opacity)) !important;
+  
+  /* Typography 통합 */
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  text-transform: var(--luxury-v1-button-casing) !important;
+  letter-spacing: var(--luxury-v1-button-letter-spacing) !important;
+  font-weight: var(--luxury-v1-button-font-weight) !important;
+  font-size: 1.4rem !important;
+  line-height: 1.2 !important;
+}
+
+/* === PRODUCT FORM SECONDARY BUTTON === */
+.product-form__submit.button--secondary,
+.product-form__submit.button.button--secondary,
+button.product-form__submit.button--secondary {
+  --initial-gradient: linear-gradient(transparent, transparent) !important;
+  --hover-gradient: linear-gradient(rgb(var(--color-secondary-button-text)), rgb(var(--color-secondary-button-text))) !important;
+  --initial-background-position: 0 0 !important;
+  --hover-background-position: 100% 0 !important;
+  
+  color: rgb(var(--color-secondary-button-text)) !important;
+  border: var(--buttons-border-width) solid rgb(var(--color-secondary-button-text)) !important;
+  border-color: rgb(var(--color-secondary-button-text)) !important;
+  background-color: transparent !important;
+  background-image: var(--initial-gradient), var(--hover-gradient) !important;
+  background-size: 0 101%, 0 101% !important;
+  background-position: var(--initial-background-position) !important;
+  border-radius: var(--buttons-radius) !important;
+}
+
+/* === SMALL BUTTON VARIANT === */
+.button--small,
+.btn--small {
+  font-size: 1.2rem !important;
+  padding: 1rem 2rem !important;
+}
+
+/* === Button font source가 'body'일 때를 위한 클래스 === */
+.luxury-v1-button-font-body {
+  font-family: var(--luxury-v1-body-font-family) !important;
+  font-weight: var(--luxury-v1-body-font-weight) !important;
+}
+
+/* === HOVER EFFECTS === */
+@media screen and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  /* Primary 버튼 hover */
+  .button:not([disabled]):not(.button--secondary):not(.skip-to-content-link):not(.newsletter-form__button):hover,
+  .btn:not([disabled]):hover,
+  input[type="submit"]:not([disabled]):not(.newsletter-form__button):hover,
+  button[type="submit"]:not([disabled]):not(.newsletter-form__button):hover,
+  .shopify-payment-button__button:not([disabled]):hover,
+  [class*="add-to-cart"]:not([disabled]):hover {
+    color: rgb(var(--color-button)) !important;
+    background-position: var(--hover-background-position) !important;
+    border-color: rgb(var(--color-button)) !important;
+    background-size: 0 101%, 101% 101% !important;
+    box-shadow: 
+      calc(var(--buttons-shadow-horizontal-offset) + 1px) 
+      calc(var(--buttons-shadow-vertical-offset) + 1px) 
+      var(--buttons-shadow-blur-radius) 
+      rgba(var(--color-shadow), calc(var(--buttons-shadow-opacity) + 0.1)) !important;
+  }
+  
+  /* Secondary 버튼 hover */
+  .button.button--secondary:not(.product-form__submit):not([disabled]):hover {
+    color: rgb(var(--color-secondary-button)) !important;
+    background-position: var(--hover-background-position) !important;
+    border-color: rgb(var(--color-secondary-button-text)) !important;
+    background-size: 0 101%, 101% 101% !important;
+    box-shadow: 
+      calc(var(--buttons-shadow-horizontal-offset) + 1px) 
+      calc(var(--buttons-shadow-vertical-offset) + 1px) 
+      var(--buttons-shadow-blur-radius) 
+      rgba(var(--color-shadow), calc(var(--buttons-shadow-opacity) + 0.1)) !important;
+  }
+  
+  /* Product form secondary 버튼 hover */
+  .product-form__submit.button--secondary:not([disabled]):hover,
+  .product-form__submit.button.button--secondary:not([disabled]):hover,
+  button.product-form__submit.button--secondary:not([disabled]):hover {
+    color: rgb(var(--color-secondary-button)) !important;
+    background-position: var(--hover-background-position) !important;
+    border-color: rgb(var(--color-secondary-button-text)) !important;
+    background-size: 0 101%, 101% 101% !important;
+    box-shadow: 
+      calc(var(--buttons-shadow-horizontal-offset) + 1px) 
+      calc(var(--buttons-shadow-vertical-offset) + 1px) 
+      var(--buttons-shadow-blur-radius) 
+      rgba(var(--color-shadow), calc(var(--buttons-shadow-opacity) + 0.1)) !important;
+  }
+  
+  /* 모바일에서 button letter-spacing 줄이기 */
+  @media screen and (max-width: 749px) {
+    .button,
+    .btn {
+      letter-spacing: calc(var(--luxury-v1-button-letter-spacing) * 0.7) !important;
+    }
+  }
+}
+
+/* === DISABLED STATE - 제품 관련 버튼만 === */
+.product-form__submit:disabled,
+.product-form__cart-submit:disabled,
+.shopify-payment-button__button:disabled,
+[class*="add-to-cart"]:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* === SOLD OUT 상태 - Buy it now 버튼 숨김 === */
+.product-form--sold-out .shopify-payment-button,
+.product-form[data-sold-out] .shopify-payment-button,
+.product-form__submit[disabled] + .shopify-payment-button,
+.sold-out .shopify-payment-button {
+  display: none !important;
+}
+
+/* === 일반 버튼의 aria-disabled 상태 정상화 === */
+.button[aria-disabled="true"]:not(.product-form__submit):not(.product-form__cart-submit):not([class*="add-to-cart"]) {
+  opacity: 1 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* === BUTTON GROUPS === */
+.button-group {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.button-group > * {
+  margin: 0 !important;
+}
+
+@media screen and (min-width: 750px) {
+  .button-group {
+    gap: 1.25rem;
+  }
+}
+
+/* === SHOPIFY PAYMENT BUTTONS === */
+.shopify-payment-button__button {
+  vertical-align: top;
+  width: 100%;
+  min-height: calc(1lh + 1.3rem + 2px);
+}
+
+/* === LOADING SPINNER 스타일링 === */
+.loading__spinner {
+  position: absolute;
+  right: 1rem;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.loading__spinner.hidden {
+  display: none !important;
+}
+
+.loading__spinner .spinner {
+  width: 100%;
+  height: 100%;
+  animation: spin 1s linear infinite;
+}
+
+.loading__spinner .path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+/* === BUTTON FOCUS STATE === */
+.button:not(.skip-to-content-link):not(.newsletter-form__button):focus,
+.product-form__submit:focus,
+.shopify-payment-button__button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* === 모바일 버튼 최적화 === */
+@media screen and (max-width: 749px) {
+  .button:not(.skip-to-content-link):not(.newsletter-form__button),
+  .product-form__submit,
+  .shopify-payment-button__button {
+    padding: 1rem 1.5rem !important;
+    font-size: 1.3rem !important;
+  }
+}
+
+/* === 제품 페이지 버튼 길이 조정 === */
+.product-form__submit.button.button--full-width.button--secondary,
+.product-form__submit.button.button--full-width,
+.product-form__submit.button,
+.product-form__submit,
+.shopify-payment-button__button,
+button.product-form__submit,
+.product-form__buttons .button,
+.product-form__buttons button {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 !important;
+}
+
+
+/* ============================================
+   LUXURY-V1 TYPOGRAPHY ONLY
+   버튼 스타일 제거, Typography에만 집중
+   ============================================ */
+
+/* === DAWN 테마 폰트 설정 사용 === */
+/* Google Fonts 제거 - Shopify 관리자에서 선택한 폰트 사용 */
+
+/* === LUXURY-V1 TYPOGRAPHY 변수 시스템 === */
+:root {
+  /* Headings Typography */
+  --luxury-v1-heading-font-family: var(--font-heading-family);
+  --luxury-v1-heading-font-weight: 350; /* Normal weight - bold 해제 */
+  --luxury-v1-heading-font-style: normal;
+  --luxury-v1-heading-casing: uppercase; /* 대문자 적용 */
+  --luxury-v1-heading-size-factor: 0.5; /* 50% - 절반 크기 */
+  --luxury-v1-heading-letter-spacing: 0.25em; /* 0.25em으로 복원 */
+  --luxury-v1-heading-line-height: 1.5;
+  
+  /* Body Typography */
+  --luxury-v1-body-font-family: var(--font-body-family);
+  --luxury-v1-body-font-weight: 400; /* 400으로 변경 */
+  --luxury-v1-body-font-style: normal;
+  --luxury-v1-body-size-mobile: 16px;
+  --luxury-v1-body-size-desktop: 16px;
+  --luxury-v1-body-letter-spacing: 0.02em;
+  --luxury-v1-body-line-height: 1.6;
+}
+
+/* === DAWN 기본 변수 오버라이드 - 순환참조 해결 === */
+:root {
+  /* Dawn의 원래 폰트 변수를 직접 설정 */
+  --font-heading-family: "Instrument Sans", sans-serif !important;
+  --font-body-family: Nunito, sans-serif !important;
+  
+  /* 크기 관련은 Dawn 기본값 유지 */
+  --font-body-scale: 1.0; /* Dawn 기본값 */
+}
+
+/* === HEADING 스타일 (제품명 특별 처리) === */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  font-weight: var(--luxury-v1-heading-font-weight) !important;
+  font-style: var(--luxury-v1-heading-font-style) !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--luxury-v1-heading-letter-spacing) !important; /* 0.25em으로 통일 */
+  line-height: var(--luxury-v1-heading-line-height) !important; /* 1.5로 통일 */
+}
+
+/* Footer H2 제목 스타일 */
+.footer-block__heading, h2.footer-block__heading {
+  font-size: 12px !important;
+  line-height: 20.4px !important;
+  letter-spacing: 2.16px !important;
+  vertical-align: baseline !important;
+}
+
+/* H2 섹션 제목 스타일 */
+h2, .h2, h2.h1, .rich-text__heading.h1 {
+  font-size: 32px !important;
+  line-height: 41.6px !important;
+  letter-spacing: 5.76px !important;
+}
+
+/* H3 섹션 제목 스타일 */
+h3, .h3 {
+  font-size: 22px !important;
+  line-height: 33px !important;
+  letter-spacing: 3.96px !important;
+}
+
+/* H3 with H4 class 스타일 (아코디언 등) */
+h3.h4, .accordion__title.h4 {
+ font-size: 16px !important;
+ line-height: 26.4px !important;
+ letter-spacing: normal !important;
+ text-transform: none !important;
+}
+
+/* === 컬렉션 카드 제품명 별도 설정 === */
+.card__heading,
+.card__heading a,
+.card-information__text h3,
+.card-information__text h3 a,
+.full-unstyled-link[aria-labelledby*="CardLink"] {
+  font-size: 12px !important;
+  line-height: 20.4px !important;
+  letter-spacing: 2.16px !important;
+}
+
+/* === HEADER 메뉴 스타일 === */
+.header__menu,
+.header__menu a,
+.menu-drawer__menu,
+.menu-drawer__menu a,
+.list-menu__item,
+.list-menu__item a,
+.header__inline-menu,
+.header__inline-menu a,
+.navigation__link,
+.mega-menu__link {
+  font-size: 13px !important;
+  letter-spacing: 2.16px !important;
+  text-transform: uppercase !important;
+}
+
+/* === ANNOUNCEMENT BAR 스타일 === */
+.announcement-bar__message,
+.announcement-bar__message span,
+.announcement-bar__message.h5 {
+  font-size: 11px !important;
+  letter-spacing: 1.98px !important;
+  text-transform: uppercase !important;
+}
+
+/* 제품명 특별 처리 - h1 태그에 직접 적용 */
+.product__title h1,
+h1.product__title,
+.product h1,
+.product-single h1,
+.product__info h1,
+.product-single__meta h1 {
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  font-weight: var(--luxury-v1-heading-font-weight) !important;
+  font-style: var(--luxury-v1-heading-font-style) !important;
+  text-transform: var(--luxury-v1-heading-casing) !important;
+  letter-spacing: 3.96px !important; /* 3.96px로 변경 */
+  line-height: var(--luxury-v1-heading-line-height) !important;
+  font-size: 22px !important; /* 22px로 변경 */
+}
+
+/* === BODY TEXT (bold 해제) === */
+body,
+p,
+.product__description,
+.product__description p,
+.rte,
+.rte p {
+  font-family: var(--luxury-v1-body-font-family) !important;
+  font-weight: var(--luxury-v1-body-font-weight) !important;
+  font-style: var(--luxury-v1-body-font-style) !important;
+  letter-spacing: var(--luxury-v1-body-letter-spacing) !important;
+  line-height: var(--luxury-v1-body-line-height) !important;
+  font-size: calc(14px * var(--font-body-scale)) !important;
+}
+
+
+
+
+
+
+/* === 브랜드명/벤더명 (bold 해제) === */
+.product-card__vendor,
+.product__vendor,
+.vendor {
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  font-weight: var(--luxury-v1-heading-font-weight) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  font-size: 0.8rem !important;
+  color: rgba(var(--color-foreground), 0.7) !important;
+}
+
+/* === FORM 요소들 (bold 해제, 크기는 그대로) === */
+
+/* Variant 라벨들 (COLOR, SIZE 제목) - font-weight 400, 대문자 */
+.product-form__input legend,
+fieldset legend,
+.variant-picker__label {
+  font-weight: 400 !important; /* 제목은 400 */
+  text-transform: uppercase !important; /* 제목은 대문자 */
+}
+
+/* Variant 옵션값들 (BLUE, PINK, GREEN 등) - font-weight 300, normal text */
+.variant-input,
+.variant-label,
+.product-form__input label {
+  font-weight: 300 !important; /* 옵션값은 300 유지 */
+  text-transform: none !important; /* 옵션값은 normal */
+}
+
+/* Quantity 라벨 (제목) - 더 구체적인 선택자로 font-weight 400 */
+.quantity__label,
+.product-form__quantity .quantity__label,
+label[for*="quantity"],
+.quantity-selector__label {
+  font-weight: 400 !important; /* 제목은 400 */
+  text-transform: uppercase !important;
+}
+
+.quantity__input {
+  font-weight: 300 !important; /* bold 해제 */
+}
+
+.quantity__button,
+.quantity__button span {
+  font-weight: 300 !important; /* bold 해제 */
+}
+
+/* 모든 버튼들 (bold 해제, 대문자, 크기는 그대로) */
+button,
+.btn,
+.button,
+.product-form__cart-submit,
+.product-form__buttons button,
+.product-form__buttons .btn,
+[type="button"],
+[type="submit"],
+input[type="submit"],
+input[type="button"],
+.cart-notification__button,
+.modal__toggle,
+.facets__reset,
+.pagination__item,
+.product-recommendation button,
+a.button,
+.product-form__cart-submit[name="add"],
+.shopify-payment-button__more-options,
+button[name="add"],
+button[form*="product"],
+.product-form > button,
+button span,
+.btn span,
+.product-form__cart-submit span {
+  font-weight: 300 !important; /* bold 해제 */
+  text-transform: uppercase !important; /* 대문자 */
+  font-size: 13px !important; /* 크기 설정 */
+  letter-spacing: 2.34px !important; /* 자간 설정 */
+}
+
+/* Buy It Now 버튼 (bold 해제, 대문자, 크기는 그대로) */
+.shopify-payment-button,
+.shopify-payment-button__button,
+.shopify-payment-button__button--unbranded,
+.shopify-payment-button__more-options,
+.dynamic-checkout__content button,
+.additional-checkout-buttons button {
+  font-weight: 300 !important; /* bold 해제 */
+  text-transform: uppercase !important; /* 대문자 */
+  font-size: 13px !important; /* 크기 설정 */
+  letter-spacing: 2.34px !important; /* 자간 설정 */
+}
+
+/* 기타 form 요소들 (bold만 해제) */
+.field__input,
+.field__label,
+select,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  font-weight: 300 !important; /* bold 해제 */
+}
+
+/* === 가격 정보 (bold 해제) === */
+.price,
+.price__regular,
+.price__sale {
+  font-family: var(--luxury-v1-body-font-family) !important;
+  font-weight: 300 !important; /* bold 해제 */
+  font-size: 18px !important; /* 18px로 변경 */
+  letter-spacing: 3.24px !important; /* 3.24px로 변경 */
+}
+
+/* === 제품 카드 가격 (featured collection 등) === */
+.card-information .price,
+.card-information .price__regular,
+.card-information .price__sale,
+.product-card .price,
+.product-card .price__regular,
+.product-card .price__sale,
+.card__content .price,
+.card__content .price__regular,
+.card__content .price__sale {
+  font-size: 12px !important;
+  letter-spacing: 2.16px !important;
+  line-height: 20.4px !important;
+}
+
+/* === 섹션 헤더들 (bold 해제) === */
+.product-single__meta h3,
+.product-single__description h3,
+h3.h4 {
+  font-family: var(--luxury-v1-heading-font-family) !important;
+  font-weight: 300 !important; /* bold 해제 */
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  font-size: 0.8rem !important;
+  color: rgba(var(--color-foreground), 0.7) !important;
+}
+
+/* === 모바일 최적화 === */
+@media screen and (max-width: 749px) {
+  /* 모바일에서 제품명 조정 */
+  .product__title {
+    font-size: calc(1.8rem * var(--luxury-v1-heading-size-factor)) !important;
+    letter-spacing: 0.5em !important;
+  }
+  
+  /* 모바일에서 버튼 텍스트 조정 */
+  button,
+  .btn,
+  .shopify-payment-button__button {
+    font-size: 0.8rem !important;
+    letter-spacing: 0.08em !important;
+  }
+}
+
+/* === 디버깅용 아웃라인 (필요시 주석 해제) === */
+/*
+.product__title {
+  outline: 1px solid red !important;
+}
+
+.product__description {
+  outline: 1px solid blue !important;
+}
+
+button, .btn {
+  outline: 1px solid green !important;
+}
+*/
+
+
+
+/* ============================================
+   LUXURY-V1 카드호버 효과
+
+   ============================================ */
+
+/* Dawn 테마 호버 효과 - 이미지 더 크게 + 속도 조정 */
+@media screen and (min-width: 990px) {
+  /* 호버 효과 속도 조정 */
+  .card .media.media--hover-effect > img:only-child,
+  .card-wrapper .media.media--hover-effect > img:only-child {
+    transition: transform 10s ease !important;
+  }
+
+  .card-wrapper:hover .media.media--hover-effect > img + img {
+    transition: transform 10s ease !important;
+  }
+
+  /* 이미지 크기 더 크게 조정 */
+  .card:hover .media.media--hover-effect > img:first-child:only-child,
+  .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child {
+    transform: scale(1.3) !important; /* 기본 1.03 → 1.08로 변경 */
+  }
+
+  .card-wrapper:hover .media.media--hover-effect > img + img {
+    transform: scale(1.3) !important; /* 기본 1.03 → 1.08로 변경 */
+  }
+}
+
+
+
+
+
+
+/* ============================================
+   아코디언 summary 요소의 크기
+
+   ============================================ */
+
+/* 아코디언 Summary 크기 및 정렬 설정 */
+.accordion summary,
+summary[id*="Summary-collapsible"] {
+  width: 700px !important;
+  height: 74.39px !important;
+  max-width: 700px !important;
+  min-height: 74.39px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important; /* 세로 가운데 정렬 */
+  justify-content: flex-start !important; /* 가로는 왼쪽 정렬 */
+}
+
+/* 아코디언 제목 텍스트 정렬 */
+.accordion__title {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 방법 1: 더 구체적인 선택자 */
+details[open] summary ~ * {
+  animation: slideDown 0.5s ease-in-out !important;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

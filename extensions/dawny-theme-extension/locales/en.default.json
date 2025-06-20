@@ -1,0 +1,14 @@
+{
+  "name": "Dawny Pro Style",
+  "settings": {
+    "style_type": {
+      "label": "Style Type",
+      "options": {
+        "luxury": "Luxury",
+        "minimal": "Minimal", 
+        "bold": "Bold",
+        "elegant": "Elegant"
+      }
+    }
+  }
+}

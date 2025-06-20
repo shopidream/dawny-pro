@@ -1,0 +1,1193 @@
+<!-- Section Styles -->
+{% style %}
+.shoppable-videos {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.shoppable-videos.section--spacing-above-none {
+  margin-top: 0;
+}
+
+.shoppable-videos.section--spacing-above-half {
+  margin-top: 20px;
+}
+
+.shoppable-videos.section--spacing-above-full {
+  margin-top: 40px;
+}
+
+.shoppable-videos.section--spacing-below-none {
+  margin-bottom: 0;
+}
+
+.shoppable-videos.section--spacing-below-half {
+  margin-bottom: 20px;
+}
+
+.shoppable-videos.section--spacing-below-full {
+  margin-bottom: 40px;
+}
+
+.shoppable-videos.section--bordered-top {
+  border-top: 1px solid var(--color-border);
+  padding-top: 30px;
+}
+
+.shoppable-videos.section--bordered-bottom {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 30px;
+}
+
+.section-colored {
+  padding: 30px 0;
+}
+
+.section-colored--light {
+  background-color: var(--color-bg-alt);
+}
+
+.section-colored--dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.section-colored--accent1 {
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+}
+
+.section-colored--accent2 {
+  background-color: var(--color-button);
+  color: var(--color-button-text);
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+
+.section-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.text-center .section-header {
+  justify-content: center;
+}
+
+.text-left .section-header {
+  text-align: left;
+}
+
+.text-right .section-header {
+  text-align: right;
+}
+
+.section-header__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.shoppable-videos__follow-button .button {
+  min-width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  padding: 12px 20px;
+}
+
+.shoppable-videos__container {
+  position: relative;
+  width: 100%;
+}
+
+/* 슬라이더 컨테이너 스타일 */
+.shoppable-videos__slider-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 0 40px; /* 화살표 버튼 공간 확보 */
+  overflow: visible; /* 화살표가 바깥에 보이도록 변경 */
+  margin-bottom: 30px;
+}
+
+/* 네비게이션 스타일 변경 - 슬라이더 바깥으로 위치 */
+.shoppable-videos__navigation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.shoppable-videos__btn {
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  padding: 0;
+  pointer-events: auto;
+  transition: opacity 0.3s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.shoppable-videos__btn--prev {
+  left: 0;
+}
+
+.shoppable-videos__btn--next {
+  right: 0;
+}
+
+.shoppable-videos__btn:hover {
+  opacity: 0.8;
+}
+
+.shoppable-videos__btn svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* Swiper 필수 스타일 */
+.shoppable-videos__slider.swiper {
+  overflow: hidden;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.swiper-wrapper {
+  display: flex;
+  width: 100%;
+  transition-property: transform;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+  width: 23%; /* 기본값 (4개 슬라이드에 마진 고려) */
+  margin: 0 10px; /* 간격 추가 */
+  height: auto;
+  position: relative;
+}
+
+/* 페이지네이션 스타일 */
+/* 페이지네이션이 보이도록 수정된 스타일 */
+.shoppable-videos__pagination,
+.swiper-pagination {
+  margin-top: 20px;
+  display: flex !important; /* !important 추가 */
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  position: relative; /* static에서 relative로 변경 */
+  bottom: auto;
+  width: 100% !important;
+  z-index: 10; /* z-index 값 증가 */
+  visibility: visible !important; /* 보이도록 강제 설정 */
+  opacity: 1 !important; /* 투명도 100% 설정 */
+}
+
+/* 페이지네이션 불릿 스타일 강화 */
+.swiper-pagination-bullet {
+  width: 10px; /* 크기 약간 증가 */
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: inline-block !important; /* !important 추가 */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  opacity: 0.6;
+  margin: 0 4px; /* 여백 추가 */
+}
+
+/* 활성화된 페이지네이션 불릿 강조 */
+.swiper-pagination-bullet-active {
+  background-color: #333 !important;
+  opacity: 1 !important;
+}
+
+
+/* 기존 슬라이드 컨텐츠 스타일 */
+.shoppable-video-slide__container {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 9/16;
+  background-color: #f6f6f6;
+  border-radius: 0;
+}
+
+.shoppable-video-slide__media {
+  width: 100%;
+  height: 100%;
+}
+
+.shoppable-video-slide__media video,
+.shoppable-video-slide__media img,
+.shoppable-video-slide__media iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.shoppable-video-slide__product {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 12px;
+  transition: transform 0.3s ease;
+  color: white;
+}
+
+.card-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-product__image {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.card-product__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-product__info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.card-product__title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ffffff; /* 이 부분 추가하여 색상 변경 (기본 검은색) */
+}
+
+.card-product__price {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff; 
+}
+
+.card-product__price--regular {
+  text-decoration: line-through;
+  opacity: 0.7;
+  color: #ffffff; /* 이 부분 추가하여 할인 전 가격 색상 변경 */
+}
+
+.card-product__actions {
+  margin-left: auto;
+}
+
+.button--add-to-cart {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  div.shoppable-videos form.form button.button.button--add-to-cart {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+div.shoppable-videos form.form button.button.button--add-to-cart:hover,
+div.shoppable-videos form.form button.button.button--add-to-cart:focus {
+  all: unset !important;
+  display: flex !important;
+  cursor: pointer !important;
+}
+  
+.button--add-to-cart svg {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+}
+
+.button--add-to-cart svg path {
+  stroke: #000000; /* 이 부분 추가하여 아이콘 색상 변경 */
+}
+
+/* 또는 이 클래스를 추가하세요 */
+.icon--bag-white path {
+  stroke: white !important;
+}
+
+/* 그리드 레이아웃 스타일 */
+.shoppable-videos__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+  
+/* 추가: 링크 텍스트 크기 조정 */
+.shoppable-videos .card-product__title a {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+  
+  @media screen and (min-width: 990px) {
+    .swiper-slide {
+      width: calc(25% - 20px) !important;
+    }
+  }
+  
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .swiper-slide {
+      width: calc(33.333% - 20px) !important;
+    }
+  }
+  
+  @media screen and (min-width: 480px) and (max-width: 749px) {
+    .swiper-slide {
+      width: calc(50% - 15px) !important;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+    .swiper-slide {
+      width: calc(100% - 10px) !important;
+    }
+  }
+  
+  .shoppable-videos__btn svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .section-header {
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%; /* 전체 너비 사용 */
+  }
+  
+  .text-center.medium-down--text-left {
+    text-align: left !important;
+  }
+  
+  .text-center.medium-down--text-center {
+    text-align: center !important;
+  }
+  
+  .text-center.medium-down--text-right {
+    text-align: right !important;
+  }
+  
+  .shoppable-videos__follow-button {
+    align-self: stretch;
+    width: 100%;
+  }
+  
+  .shoppable-videos__follow-button .button {
+    width: 100%;
+  }
+  
+  .shoppable-videos__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .shoppable-videos__slider-wrapper {
+    padding: 0 30px;
+  }
+  
+  .shoppable-videos__btn svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .shoppable-video-slide__product {
+    padding: 10px;
+  }
+  
+  .card-product__image {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .card-product__title {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .shoppable-videos__grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  
+  .shoppable-videos__slider-wrapper {
+    padding: 0 25px;
+  }
+  
+  .shoppable-videos__btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+    /* 모바일에서 슬라이드 너비 강제 설정 */
+  .swiper-slide {
+    width: calc(100% - 20px) !important; /* 100% 너비에서 좌우 마진 10px씩 뺀 값 */
+  }
+}
+
+{% endstyle %}
+
+
+
+
+
+
+{% comment %}
+  쇼퍼블 제품 섹션 - "AS SEEN ON" 스타일
+  - 제품 이미지/비디오 슬라이더 제공
+  - 각 비디오/이미지와 연결된 제품 표시
+  - Pipeline 테마의 기본 장바구니 팝업 사용
+{% endcomment %}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign heading_alignment = section.settings.heading_alignment
+  assign spacing_above = section.settings.spacing_above
+  assign spacing_below = section.settings.spacing_below
+  assign background_color = section.settings.background_color
+  assign use_white_text = section.settings.use_white_text
+  assign border = section.settings.border
+  assign display_type = section.settings.display_type
+  assign mobile_spacing_above = section.settings.mobile_spacing_above
+  assign mobile_spacing_below = section.settings.mobile_spacing_below
+  assign mobile_heading_alignment = section.settings.mobile_heading_alignment
+  assign mobile_columns = section.settings.mobile_columns
+  
+  assign section_class = ''
+  
+  if background_color == 'light'
+    assign section_class = section_class | append: ' section-colored section-colored--light'
+  elsif background_color == 'dark'
+    assign section_class = section_class | append: ' section-colored section-colored--dark'
+  elsif background_color == 'accent1'
+    assign section_class = section_class | append: ' section-colored section-colored--accent1'
+  elsif background_color == 'accent2'
+    assign section_class = section_class | append: ' section-colored section-colored--accent2'
+  endif
+  
+  if border == 'top'
+    assign section_class = section_class | append: ' section--bordered-top'
+  elsif border == 'bottom'
+    assign section_class = section_class | append: ' section--bordered-bottom'
+  elsif border == 'both'
+    assign section_class = section_class | append: ' section--bordered-top section--bordered-bottom'
+  endif
+  
+  if spacing_above == 'none'
+    assign section_class = section_class | append: ' section--spacing-above-none'
+  elsif spacing_above == 'half'
+    assign section_class = section_class | append: ' section--spacing-above-half'
+  elsif spacing_above == 'full'
+    assign section_class = section_class | append: ' section--spacing-above-full'
+  endif
+  
+  if spacing_below == 'none'
+    assign section_class = section_class | append: ' section--spacing-below-none'
+  elsif spacing_below == 'half'
+    assign section_class = section_class | append: ' section--spacing-below-half'
+  elsif spacing_below == 'full'
+    assign section_class = section_class | append: ' section--spacing-below-full'
+  endif
+-%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+{{ 'section-shoppable-videos.css' | asset_url | stylesheet_tag }}
+
+<div class="shoppable-videos section{{ section_class }}" 
+  data-section-id="{{ section.id }}"
+  data-section-type="shoppable-videos"
+  data-spacing-above="{{ spacing_above }}"
+  data-spacing-below="{{ spacing_below }}"
+  data-mobile-spacing-above="{{ mobile_spacing_above }}"
+  data-mobile-spacing-below="{{ mobile_spacing_below }}"
+>
+  <div class="page-width">
+<div class="section-header text-{{ heading_alignment }} medium-down--text-{{ mobile_heading_alignment }}">
+  {% if heading != blank %}
+    <h2 class="section-header__title h2">{{ heading | escape }}</h2>
+  {% endif %}
+  
+  {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+    <div class="shoppable-videos__follow-button">
+      <a href="{{ section.settings.button_link }}" class="button button--outline" target="_blank">
+        {{ section.settings.button_text }}
+      </a>
+    </div>
+  {% endif %}
+</div>
+  
+    <div id="Shoppable-{{ section.id }}" class="shoppable-videos__container">
+      {% if display_type == 'slideshow' %}
+        <div class="shoppable-videos__slider-wrapper">
+          <!-- 네비게이션 화살표 위치 변경 - 슬라이더 밖으로 이동 -->
+          <div class="shoppable-videos__navigation">
+            <button class="shoppable-videos__btn shoppable-videos__btn--prev" aria-label="Previous slide">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="16" fill="white"/>
+                <path d="M20 8L12 16L20 24" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="shoppable-videos__btn shoppable-videos__btn--next" aria-label="Next slide">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="16" fill="white"/>
+                <path d="M12 8L20 16L12 24" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="shoppable-videos__slider swiper">
+            <div class="swiper-wrapper">
+              {% for block in section.blocks %}
+                <div class="swiper-slide shoppable-video-slide" {{ block.shopify_attributes }}>
+                  <div class="shoppable-video-slide__container">
+                    <div class="shoppable-video-slide__media">
+                      {% if block.settings.video != blank %}
+                        {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: "media media--transparent" }}
+{% elsif block.settings.video_url != blank %}
+  {% assign video_url = block.settings.video_url | strip %}
+  {% if video_url contains "youtube.com" or video_url contains "youtu.be" %}
+{% if video_url contains "youtube.com/shorts" %}
+  {% assign youtube_id = video_url | split: "shorts/" | last | split: "?" | first %}
+{% elsif video_url contains "youtu.be" %}
+  {% assign youtube_id = video_url | split: "youtu.be/" | last | split: "?" | first %}
+{% elsif video_url contains "youtube.com/watch?v=" %}
+  {% assign youtube_id = video_url | split: "watch?v=" | last | split: "&" | first %}
+{% else %}
+  {% assign youtube_id = video_url %}
+{% endif %}
+
+<iframe 
+  src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&mute=1&loop=1&playlist={{ youtube_id }}"
+  frameborder="0"
+  allowfullscreen
+  allow="autoplay"
+  class="media">
+</iframe>
+  {% else %}
+    <video autoplay loop muted playsinline class="media">
+      <source src="{{ video_url }}" type="video/mp4">
+      {% if block.settings.image != blank %}
+        <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt | escape }}">
+      {% endif %}
+    </video>
+  {% endif %}
+                      {% elsif block.settings.image != blank %}
+                        {% assign image_url = block.settings.image | image_url: width: 1500 %}
+                        {% assign image_alt = block.settings.image.alt | escape %}
+                        <img src="{{ image_url }}" 
+                             alt="{{ image_alt }}"
+                             loading="lazy"
+                             class="media"
+                             width="{{ block.settings.image.width }}"
+                             height="{{ block.settings.image.height }}">
+                      {% else %}
+                        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </div>
+                    
+                    {% if block.settings.product != blank %}
+                      {% assign product = all_products[block.settings.product] %}
+                      {% if product != empty %}
+                        <div class="shoppable-video-slide__product">
+                          <div class="card-product">
+<div class="card-product__image">
+  {% if product.featured_image != blank %}
+    {% assign product_img_url = product.featured_image | image_url: width: 120 %}
+    <a href="{{ product.url }}">
+      <img src="{{ product_img_url }}" 
+           alt="{{ product.featured_image.alt | escape }}" 
+           loading="lazy" 
+           width="80" 
+           height="80">
+    </a>
+  {% else %}
+    <a href="{{ product.url }}">
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </a>
+  {% endif %}
+</div>
+<div class="card-product__info">
+  <h3 class="card-product__title">
+    <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+      {{ product.title | escape }}
+    </a>
+  </h3>
+  <div class="card-product__price">
+    {% if product.price_varies %}
+      <span>{{ 'products.product.from_price_html' | t: regular_price: product.price | money }}</span>
+    {% else %}
+      <span>{{ product.price | money }}</span>
+    {% endif %}
+    
+    {% if product.compare_at_price > product.price %}
+      <span class="card-product__price--regular">{{ product.compare_at_price | money }}</span>
+    {% endif %}
+  </div>
+</div>
+                            <div class="card-product__actions">
+                              <form method="post" action="/cart/add" class="form">
+                                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                                <button type="submit" 
+                                  name="add"
+                                  {% if product.available == false %} disabled{% endif %}
+                                  class="button button--add-to-cart"
+                                  aria-label="Cart"
+                                >
+                                  <svg class="icon--root icon--bag icon--bag-white" width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.75 9.5V5a3.75 3.75 0 0 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H2.25a1.126 1.126 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 3.513 6.5h12.974c.576 0 1.059.435 1.119 1.007ZM6.625 9.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  </svg>
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            
+            <!-- 페이지네이션 도트 추가 -->
+            <div class="shoppable-videos__pagination"></div>
+          </div>
+        </div>
+      {% else %}
+        <div class="shoppable-videos__grid">
+          {% for block in section.blocks %}
+            <div class="shoppable-videos__grid-item" {{ block.shopify_attributes }}>
+              <div class="shoppable-video-slide__container">
+                <div class="shoppable-video-slide__media">
+                  {% if block.settings.video != blank %}
+                    {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: "media media--transparent" }}
+{% elsif block.settings.video_url != blank %}
+  {% assign video_url = block.settings.video_url | strip %}
+  {% if video_url contains "youtube.com" or video_url contains "youtu.be" %}
+{% if video_url contains "youtube.com/shorts" %}
+  {% assign youtube_id = video_url | split: "shorts/" | last | split: "?" | first %}
+{% elsif video_url contains "youtu.be" %}
+  {% assign youtube_id = video_url | split: "youtu.be/" | last | split: "?" | first %}
+{% elsif video_url contains "youtube.com/watch?v=" %}
+  {% assign youtube_id = video_url | split: "watch?v=" | last | split: "&" | first %}
+{% else %}
+  {% assign youtube_id = video_url %}
+{% endif %}
+
+<iframe 
+  src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&mute=1&loop=1&playlist={{ youtube_id }}"
+  frameborder="0"
+  allowfullscreen
+  allow="autoplay"
+  class="media">
+</iframe>
+    <video autoplay loop muted playsinline class="media">
+      <source src="{{ video_url }}" type="video/mp4">
+      {% if block.settings.image != blank %}
+        <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt | escape }}">
+      {% endif %}
+    </video>
+  {% endif %}
+                  {% elsif block.settings.image != blank %}
+                    {% assign image_url = block.settings.image | image_url: width: 1500 %}
+                    {% assign image_alt = block.settings.image.alt | escape %}
+                    <img src="{{ image_url }}" 
+                         alt="{{ image_alt }}"
+                         loading="lazy"
+                         class="media"
+                         width="{{ block.settings.image.width }}"
+                         height="{{ block.settings.image.height }}">
+                  {% else %}
+                    {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </div>
+                
+                {% if block.settings.product != blank %}
+                  {% assign product = all_products[block.settings.product] %}
+                  {% if product != empty %}
+                    <div class="shoppable-video-slide__product">
+                      <div class="card-product">
+<div class="card-product__image">
+  {% if product.featured_image != blank %}
+    {% assign product_img_url = product.featured_image | image_url: width: 120 %}
+    <a href="{{ product.url }}">
+      <img src="{{ product_img_url }}" 
+           alt="{{ product.featured_image.alt | escape }}" 
+           loading="lazy" 
+           width="80" 
+           height="80">
+    </a>
+  {% else %}
+    <a href="{{ product.url }}">
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </a>
+  {% endif %}
+</div>
+<div class="card-product__info">
+  <h3 class="card-product__title">
+    <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+      {{ product.title | escape }}
+    </a>
+  </h3>
+  <div class="card-product__price">
+    {% if product.price_varies %}
+      <span>{{ 'products.product.from_price_html' | t: regular_price: product.price | money }}</span>
+    {% else %}
+      <span>{{ product.price | money }}</span>
+    {% endif %}
+    
+    {% if product.compare_at_price > product.price %}
+      <span class="card-product__price--regular">{{ product.compare_at_price | money }}</span>
+    {% endif %}
+  </div>
+</div>
+                        <div class="card-product__actions">
+                          <form method="post" action="/cart/add" class="form">
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <button type="submit" 
+                              name="add"
+                              {% if product.available == false %} disabled{% endif %}
+                              class="button button--add-to-cart"
+                              aria-label="Cart"
+                            >
+                              <svg class="icon--root icon--bag icon--bag-white" width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.75 9.5V5a3.75 3.75 0 0 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H2.25a1.126 1.126 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 3.513 6.5h12.974c.576 0 1.059.435 1.119 1.007ZM6.625 9.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  </svg>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shoppable Videos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style and layout"
+    },
+    {
+      "id": "border",
+      "label": "Border",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "both", "label": "Both" }
+      ],
+      "default": "none"
+    },
+    {
+      "id": "spacing_above",
+      "label": "Spacing above",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "half", "label": "Half" },
+        { "value": "full", "label": "Full" }
+      ],
+      "default": "full"
+    },
+    {
+      "id": "spacing_below",
+      "label": "Spacing below",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "half", "label": "Half" },
+        { "value": "full", "label": "Full" }
+      ],
+      "default": "full"
+    },
+    {
+      "id": "background_color",
+      "label": "Background color",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" },
+        { "value": "accent1", "label": "Accent 1" },
+        { "value": "accent2", "label": "Accent 2" }
+      ],
+      "default": "none"
+    },
+    {
+      "id": "use_white_text",
+      "label": "Use white text color",
+      "type": "checkbox",
+      "default": false
+    },
+    {
+      "id": "display_type",
+      "label": "Display type",
+      "type": "select",
+      "options": [
+        { "value": "slideshow", "label": "Slideshow" },
+        { "value": "grid", "label": "Grid" }
+      ],
+      "default": "slideshow"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "type": "text",
+      "default": "AS SEEN ON"
+    },
+    {
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "type": "select",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "id": "button_text",
+      "label": "Button text",
+      "type": "text",
+      "default": "FOLLOW US @STORE"
+    },
+    {
+      "id": "button_link",
+      "label": "Button link",
+      "type": "url"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "id": "mobile_spacing_above",
+      "label": "Spacing above",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "half", "label": "Half" },
+        { "value": "full", "label": "Full" }
+      ],
+      "default": "half"
+    },
+    {
+      "id": "mobile_spacing_below",
+      "label": "Spacing below",
+      "type": "select",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "half", "label": "Half" },
+        { "value": "full", "label": "Full" }
+      ],
+      "default": "half"
+    },
+    {
+      "id": "mobile_heading_alignment",
+      "label": "Heading alignment",
+      "type": "select",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "info": "Align the heading to balance it with the slideshow navigation arrows."
+    },
+    {
+      "id": "mobile_columns",
+      "label": "Mobile columns",
+      "type": "select",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    }
+  ],
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Video Post",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Upload"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (YouTube, MP4)",
+          "info": "YouTube or MP4 URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (Video replacement)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shoppable Videos",
+      "blocks": [
+        {
+          "type": "product_item"
+        },
+        {
+          "type": "product_item"
+        },
+        {
+          "type": "product_item"
+        },
+        {
+          "type": "product_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% if display_type == 'slideshow' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initShoppableVideos();
+  });
+
+  /**
+   * 쇼퍼블 비디오 섹션의 슬라이더 초기화 함수
+   */
+  function initShoppableVideos() {
+    // Swiper가 로드되었는지 확인
+    if (typeof Swiper === 'undefined') {
+      console.error('Swiper가 로드되지 않았습니다. Swiper 라이브러리가 올바르게 포함되어 있는지 확인하세요.');
+      // 1초 후 다시 시도 (페이지 로드 타이밍 문제인 경우)
+      setTimeout(initShoppableVideos, 1000);
+      return;
+    }
+    
+    // 모든 쇼퍼블 비디오 섹션에 적용
+    const sections = document.querySelectorAll('[data-section-type="shoppable-videos"]');
+    
+    sections.forEach(function(section) {
+      const sectionId = section.getAttribute('data-section-id');
+      const swiperContainer = section.querySelector('.swiper');
+      
+      if (!swiperContainer) {
+        console.error(`섹션 #${sectionId}에서 Swiper 컨테이너를 찾을 수 없습니다`);
+        return;
+      }
+      
+      // 네비게이션 버튼 설정
+      const prevBtn = section.querySelector('.shoppable-videos__btn--prev');
+      const nextBtn = section.querySelector('.shoppable-videos__btn--next');
+      const paginationEl = section.querySelector('.shoppable-videos__pagination');
+      
+      // Swiper 초기화
+      const swiper = new Swiper(swiperContainer, {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        loop: false, // 처음과 끝에서 화살표를 숨기기 위해 루프 모드 해제
+        watchOverflow: true,
+        speed: 600,
+        slidesPerGroup: 1,
+        preloadImages: true,
+        updateOnImagesReady: true,
+        watchSlidesProgress: true,
+        pagination: {
+          el: paginationEl,
+          clickable: true,
+          dynamicBullets: true
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 15,
+          },
+          750: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          990: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          }
+        },
+        on: {
+          init: function() {
+            console.log('Swiper 초기화 완료');
+            updateArrows(this); // 초기화 시 화살표 상태 업데이트
+          },
+          slideChange: function() {
+            updateArrows(this); // 슬라이드 변경 시 화살표 상태 업데이트
+          }
+        }
+      });
+      
+      // 화살표 상태 업데이트 함수
+      function updateArrows(swiper) {
+        if (prevBtn) {
+          // 첫 슬라이드에서는 이전 버튼 숨기기
+          if (swiper.isBeginning) {
+            prevBtn.style.display = 'none';
+          } else {
+            prevBtn.style.display = 'flex';
+          }
+        }
+        
+        if (nextBtn) {
+          // 마지막 슬라이드에서는 다음 버튼 숨기기
+          if (swiper.isEnd) {
+            nextBtn.style.display = 'none';
+          } else {
+            nextBtn.style.display = 'flex';
+          }
+        }
+      }
+      
+      // 커스텀 네비게이션 버튼 이벤트 핸들러
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          swiper.slidePrev();
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          swiper.slideNext();
+        });
+      }
+      
+      // 초기화 후 강제 업데이트
+      setTimeout(function() {
+        if (swiper && swiper.update) {
+          swiper.updateSize();
+          swiper.updateSlides();
+          swiper.update();
+          updateArrows(swiper); // 업데이트 후 화살표 상태 확인
+          console.log(`Swiper 강제 업데이트 완료 (섹션 ID: ${sectionId})`);
+        }
+      }, 500);
+      
+      // 비디오 자동 재생 처리
+      const videos = section.querySelectorAll('video');
+      videos.forEach(function(video) {
+        if (video.paused) {
+          video.play().catch(function(e) {
+            console.log('자동 재생 실패:', e);
+            // 자동 재생 정책으로 인해 실패한 경우 muted 상태로 다시 시도
+            video.muted = true;
+            video.play();
+          });
+        }
+      });
+    });
+    
+    // 창 크기 변경 시 모든 슬라이더 업데이트
+    window.addEventListener('resize', function() {
+      const sliders = document.querySelectorAll('.swiper');
+      sliders.forEach(function(slider) {
+        const swiperInstance = slider.swiper;
+        if (swiperInstance && swiperInstance.update) {
+          setTimeout(function() {
+            swiperInstance.updateSize();
+            swiperInstance.updateSlides();
+            swiperInstance.update();
+          }, 100);
+        }
+      });
+    });
+  }
+</script>
+{% endif %}

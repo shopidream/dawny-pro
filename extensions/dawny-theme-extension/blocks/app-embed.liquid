@@ -1,0 +1,60 @@
+<script>
+(function() {
+  'use strict';
+  
+  // 이미 로드된 Dawny Pro 스타일이 있는지 확인
+  if (document.querySelector('link[data-dawny-pro]')) {
+    return;
+  }
+  
+  // 설정에서 스타일 타입 가져오기
+  const styleType = '{{ block.settings.style_type }}' || 'luxury';
+  
+  function loadDawnyStyle() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = `http://165.22.190.87:3001/css/${styleType}.css?v=${Date.now()}`;
+    link.setAttribute('data-dawny-pro', styleType);
+    
+    link.onload = function() {
+      console.log(`✅ Dawny Pro ${styleType} style loaded`);
+      document.body.classList.add('dawny-pro-loaded');
+      document.body.classList.add(`dawny-pro-${styleType}`);
+    };
+    
+    link.onerror = function() {
+      console.error(`❌ Failed to load Dawny Pro ${styleType} style`);
+    };
+    
+    document.head.appendChild(link);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadDawnyStyle);
+  } else {
+    loadDawnyStyle();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Dawny Pro Style",
+  "target": "body",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style_type",
+      "label": "Style Type",
+      "options": [
+        {"value": "luxury", "label": "Luxury"},
+        {"value": "minimal", "label": "Minimal"},
+        {"value": "bold", "label": "Bold"},
+        {"value": "elegant", "label": "Elegant"}
+      ],
+      "default": "luxury"
+    }
+  ]
+}
+{% endschema %}

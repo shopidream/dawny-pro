@@ -1,0 +1,301 @@
+import {
+  Card,
+  EmptyState,
+  Layout,
+  Page,
+  Text,
+  BlockStack,
+  InlineStack,
+  Button,
+  Badge,
+  Grid,
+  Box,
+  Divider,
+} from "@shopify/polaris";
+import { TitleBar } from "@shopify/app-bridge-react";
+import { useState } from "react";
+
+export default function Index() {
+  const [currentPlan, setCurrentPlan] = useState("professional");
+  const [selectedThemes, setSelectedThemes] = useState(["luxury-v1"]);
+
+  const plans = {
+    starter: { name: "Starter Plan", price: "$9.99", color: "subdued" },
+    professional: { name: "Professional Plan", price: "$19.99", color: "success" },
+    enterprise: { name: "Enterprise Plan", price: "$39.99", color: "attention" }
+  };
+
+  const themes = {
+    "luxury-v1": { 
+      name: "Luxury V1", 
+      description: "Premium and sophisticated design", 
+      available: true,
+      cssFile: "style-luxury-v1.css",
+      active: true
+    },
+    "modern-v1": { 
+      name: "Modern V1", 
+      description: "Clean and contemporary styling", 
+      available: false,
+      cssFile: "style-modern-v1.css",
+      active: false
+    },
+    "premium-v1": { 
+      name: "Premium V1", 
+      description: "High-end design for premium brands", 
+      available: false,
+      cssFile: "style-premium-v1.css",
+      active: false
+    },
+    "business-v1": { 
+      name: "Business V1", 
+      description: "Professional design for enterprise brands", 
+      available: false,
+      cssFile: "style-business-v1.css",
+      active: false
+    }
+  };
+
+  const sections = [
+    { id: "shoppable-videos", name: "Shoppable Videos", description: "Video content linked with products", installed: true, file: "section-shoppable-video.liquid" },
+  ];
+
+  const handleThemeSelect = (themeKey) => {
+    if (themes[themeKey].available) {
+      setSelectedThemes([themeKey]);
+    }
+  };
+
+  const applySelectedThemes = async () => {
+    if (selectedThemes.length === 0) return;
+    
+    // TODO: Theme API를 통해 실제 CSS를 고객 테마에 적용
+    console.log("Applying themes:", selectedThemes);
+    alert(`${selectedThemes.map(key => themes[key].name).join(", ")} theme(s) will be applied!`);
+  };
+
+  return (
+    <Page>
+      <TitleBar title="Dawny Pro Dashboard" />
+      <BlockStack gap="500">
+        
+        {/* Current Plan Status */}
+        <Card>
+          <BlockStack gap="400">
+            <InlineStack align="space-between">
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingLg">
+                  🎬 Dawny Pro
+                </Text>
+                <Text variant="bodyMd" color="subdued">
+                  Upgrade your theme to the next level
+                </Text>
+              </BlockStack>
+              <Badge tone={plans[currentPlan].color} size="large">
+                {plans[currentPlan].name}
+              </Badge>
+            </InlineStack>
+            
+            <Box background="bg-surface-secondary" padding="400" borderRadius="200">
+              <InlineStack align="space-between">
+                <BlockStack gap="100">
+                  <Text variant="headingMd">
+                    👑 {plans[currentPlan].name}
+                  </Text>
+                  <Text variant="bodyMd" color="subdued">
+                    {plans[currentPlan].price}/month - Next billing: July 12, 2025
+                  </Text>
+                </BlockStack>
+                <Button variant="primary" size="large">
+                  Change Plan
+                </Button>
+              </InlineStack>
+            </Box>
+          </BlockStack>
+        </Card>
+
+        <Layout>
+          <Layout.Section variant="oneThird">
+            {/* CSS Theme Selection */}
+            <BlockStack gap="400">
+              <Text as="h3" variant="headingMd">
+                🎨 CSS Theme Styles
+              </Text>
+              
+              <BlockStack gap="300">
+                {Object.entries(themes).map(([key, theme]) => (
+                  <Card key={key}>
+                    <Box
+                      padding="300"
+                      background={selectedThemes.includes(key) ? "bg-surface-selected" : "bg-surface"}
+                      onClick={() => handleThemeSelect(key)}
+                      style={{ cursor: theme.available ? "pointer" : "not-allowed", opacity: theme.available ? 1 : 0.6 }}
+                    >
+                      <InlineStack align="space-between">
+                        <BlockStack gap="100">
+                          <InlineStack gap="200" align="center">
+                            <div
+                              style={{
+                                width: "12px",
+                                height: "12px",
+                                borderRadius: "50%",
+                                backgroundColor: theme.active ? "#00A96E" : (selectedThemes.includes(key) ? "#5C6AC4" : "#DDD")
+                              }}
+                            />
+                            <Text variant="bodyMd" fontWeight="semibold">
+                              {theme.name}
+                            </Text>
+                            {theme.active && (
+                              <Badge tone="success" size="small">Active</Badge>
+                            )}
+                            {!theme.available && (
+                              <Badge tone="subdued" size="small">Coming Soon</Badge>
+                            )}
+                          </InlineStack>
+                          <Text variant="bodySm" color="subdued">
+                            {theme.description}
+                          </Text>
+                          {theme.available && (
+                            <Text variant="bodySm" color="subdued">
+                              File: {theme.cssFile}
+                            </Text>
+                          )}
+                        </BlockStack>
+                      </InlineStack>
+                    </Box>
+                  </Card>
+                ))}
+              </BlockStack>
+
+              <InlineStack gap="200">
+                <Button 
+                  variant="primary" 
+                  size="large"
+                  disabled={selectedThemes.length === 0}
+                  onClick={applySelectedThemes}
+                >
+                  Apply Selected Themes
+                </Button>
+                <Button variant="secondary">
+                  Preview
+                </Button>
+              </InlineStack>
+            </BlockStack>
+          </Layout.Section>
+
+          <Layout.Section variant="oneThird">
+            {/* Premium Sections */}
+            <Card>
+              <BlockStack gap="400">
+                <Text as="h3" variant="headingMd">
+                  🧩 Premium Sections
+                </Text>
+                
+                <BlockStack gap="200">
+                  {sections.map((section) => (
+                    <Box
+                      key={section.id}
+                      padding="300"
+                      background="bg-surface"
+                      borderRadius="200"
+                      borderWidth="025"
+                    >
+                      <InlineStack align="space-between">
+                        <BlockStack gap="100">
+                          <InlineStack gap="200" align="center">
+                            <div
+                              style={{
+                                width: "8px",
+                                height: "8px",
+                                borderRadius: "50%",
+                                backgroundColor: section.installed ? "#00A96E" : "#DC3545"
+                              }}
+                            />
+                            <Text variant="bodyMd" fontWeight="semibold">
+                              {section.name}
+                            </Text>
+                          </InlineStack>
+                          <Text variant="bodySm" color="subdued">
+                            {section.description}
+                          </Text>
+                          {section.file && (
+                            <Text variant="bodySm" color="subdued">
+                              File: {section.file}
+                            </Text>
+                          )}
+                        </BlockStack>
+                        <Badge tone={section.installed ? "success" : "critical"}>
+                          {section.installed ? "Installed" : "Not Installed"}
+                        </Badge>
+                      </InlineStack>
+                    </Box>
+                  ))}
+                </BlockStack>
+
+                <Button variant="primary" size="large">
+                  Install/Manage Sections
+                </Button>
+              </BlockStack>
+            </Card>
+          </Layout.Section>
+
+          <Layout.Section variant="oneThird">
+            {/* Installation Status & Help */}
+            <Card>
+              <BlockStack gap="400">
+                <Text as="h3" variant="headingMd">
+                  📊 Installation Status
+                </Text>
+                
+                <Box padding="300" background="bg-surface-success-subdued" borderRadius="200">
+                  <BlockStack gap="200">
+                    <Text variant="bodyMd" fontWeight="semibold" color="success">
+                      ✅ Active Theme: Luxury V1
+                    </Text>
+                    <Text variant="bodySm" color="subdued">
+                      Last updated: June 10, 2025
+                    </Text>
+                  </BlockStack>
+                </Box>
+
+                <Divider />
+
+                <BlockStack gap="300">
+                  <Text variant="bodyMd" fontWeight="semibold">
+                    🚀 Quick Actions
+                  </Text>
+                  
+                  <BlockStack gap="200">
+                    <Button variant="secondary" fullWidth>
+                      Create Theme Backup
+                    </Button>
+                    <Button variant="secondary" fullWidth>
+                      Export Settings
+                    </Button>
+                    <Button variant="secondary" fullWidth>
+                      Contact Support
+                    </Button>
+                  </BlockStack>
+                </BlockStack>
+
+                <Box padding="300" background="bg-surface-info-subdued" borderRadius="200">
+                  <BlockStack gap="200">
+                    <Text variant="bodyMd" fontWeight="semibold">
+                      💡 Need Help?
+                    </Text>
+                    <Text variant="bodySm" color="subdued">
+                      Check out our installation and usage guides.
+                    </Text>
+                    <Button variant="secondary" size="micro">
+                      View Guide
+                    </Button>
+                  </BlockStack>
+                </Box>
+              </BlockStack>
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </BlockStack>
+    </Page>
+  );
+}

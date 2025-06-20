@@ -1,0 +1,149 @@
+
+> build
+> remix vite:build
+
+NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.
+vite v6.3.5 building for production...
+transforming...
+✓ 1486 modules transformed.
+✗ Build failed in 11.28s
+app/routes/app.style-manager.jsx (4:59): "Stack" is not exported by "node_modules/@shopify/polaris/build/esm/index.js", imported by "app/routes/app.style-manager.jsx".
+file: /root/dawny-pro/app/routes/app.style-manager.jsx:4:59
+
+2: import { useActionData, useLoaderData, Form } from "@remix-run/react";
+3: import { authenticate } from "../shopify.server";
+4: import { Card, Page, Layout, Button, Text, Banner, Select, Stack, TextField } from "@shopify/polaris";
+                                                              ^
+5: import { useState, useCallback } from "react";
+
+    at getRollupError (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:16807:16)
+    at Module.traceVariable (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:17256:29)
+    at ModuleScope.findVariable (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:14909:39)
+    at FunctionScope.findVariable (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:5633:38)
+    at FunctionBodyScope.findVariable (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:5633:38)
+    at Identifier.bind (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:5407:40)
+    at CallExpression.bind (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:2794:28)
+    at CallExpression.bind (file:///root/dawny-pro/node_modules/rollup/dist/es/shared/node-entry.js:11994:15) {
+  binding: 'Stack',
+  code: 'MISSING_EXPORT',
+  exporter: '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/index.js',
+  id: '/root/dawny-pro/app/routes/app.style-manager.jsx',
+  url: 'https://rollupjs.org/troubleshooting/#error-name-is-not-exported-by-module',
+  pos: 177,
+  loc: {
+    column: 59,
+    file: '/root/dawny-pro/app/routes/app.style-manager.jsx',
+    line: 4
+  },
+  frame: '2: import { useActionData, useLoaderData, Form } from "@remix-run/react";\n' +
+    '3: import { authenticate } from "../shopify.server";\n' +
+    '4: import { Card, Page, Layout, Button, Text, Banner, Select, Stack, TextField } from "@shopify/polaris";\n' +
+    '                                                              ^\n' +
+    '5: import { useState, useCallback } from "react";',
+  watchFiles: [
+    '/root/dawny-pro/node_modules/@remix-run/dev/dist/config/defaults/entry.client.tsx',
+    '/root/dawny-pro/app/root.jsx',
+    '/root/dawny-pro/app/routes/webhooks.app.scopes_update.jsx',
+    '/root/dawny-pro/app/routes/webhooks.app.uninstalled.jsx',
+    '/root/dawny-pro/app/routes/auth.login/route.jsx',
+    '/root/dawny-pro/app/routes/_index/route.jsx',
+    '/root/dawny-pro/app/routes/auth.$.jsx',
+    '/root/dawny-pro/app/routes/app.jsx',
+    '/root/dawny-pro/app/routes/app.style-manager.jsx',
+    '/root/dawny-pro/app/routes/app.additional.jsx',
+    '/root/dawny-pro/app/routes/app._index.jsx',
+    '/root/dawny-pro/node_modules/react/jsx-runtime.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/index.js',
+    '/root/dawny-pro/node_modules/react/index.js',
+    '/root/dawny-pro/node_modules/react-dom/client.js',
+    '/root/dawny-pro/package.json',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/browser.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/components.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/scroll-restoration.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/server.js',
+    '/root/dawny-pro/node_modules/react-router-dom/dist/index.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/index.js',
+    '/root/dawny-pro/node_modules/react/cjs/react-jsx-runtime.production.min.js',
+    '/root/dawny-pro/node_modules/react/cjs/react.production.min.js',
+    '/root/dawny-pro/node_modules/react-dom/index.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/_virtual/_rollupPluginBabelHelpers.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/errorBoundaries.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/routes.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/single-fetch.js',
+    '/root/dawny-pro/node_modules/react-router-dom/server.mjs',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/cookies.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/formData.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/responses.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/single-fetch.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/server.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/sessions.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/sessions/cookieStorage.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/sessions/memoryStorage.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/upload/memoryUploadHandler.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/upload/errors.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/dev.js',
+    '/root/dawny-pro/node_modules/react-dom/cjs/react-dom.production.min.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/errors.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/invariant.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/fog-of-war.js',
+    '/root/dawny-pro/node_modules/@remix-run/router/dist/router.js',
+    '/root/dawny-pro/node_modules/react-router/dist/index.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/links.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/markup.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/index.js',
+    '/root/dawny-pro/node_modules/@shopify/app-bridge-react/build/esm/index.js',
+    '/root/dawny-pro/app/routes/_index/styles.module.css',
+    '/root/dawny-pro/node_modules/@shopify/shopify-app-remix/dist/esm/server/index.mjs',
+    '/root/dawny-pro/node_modules/@shopify/shopify-app-remix/dist/esm/react/index.mjs',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/routeModules.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/data.js',
+    '/root/dawny-pro/node_modules/@remix-run/react/dist/esm/fallback.js',
+    '/root/dawny-pro/node_modules/turbo-stream/dist/turbo-stream.mjs',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/warnings.js',
+    '/root/dawny-pro/node_modules/cookie/index.js',
+    '/root/dawny-pro/node_modules/@web3-storage/multipart-parser/esm/src/index.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/errors.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/styles.css',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/headers.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/mode.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/entry.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/invariant.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/routeMatching.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/routes.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/serverHandoff.js',
+    '/root/dawny-pro/node_modules/@remix-run/server-runtime/dist/esm/deprecations.js',
+    '/root/dawny-pro/node_modules/scheduler/index.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/configure.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/types.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/shared.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/ThemeProvider/ThemeProvider.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/color-transformers.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/within-content-context.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-copy-to-clipboard.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-event-listener.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-focus.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-hover.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-media-query.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-theme.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/use-index-resource-state.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/utilities/breakpoints.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/AppProvider/AppProvider.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/AccountConnection/AccountConnection.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/ActionList/ActionList.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/ActionMenu/ActionMenu.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Autocomplete/Autocomplete.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Avatar/Avatar.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Backdrop/Backdrop.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Badge/Badge.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Badge/types.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Banner/Banner.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Bleed/Bleed.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Box/Box.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/Breadcrumbs/Breadcrumbs.js',
+    '/root/dawny-pro/node_modules/@shopify/polaris/build/esm/components/BulkActions/BulkActions.js',
+    ... 1352 more items
+  ],
+  [Symbol(augmented)]: true
+}

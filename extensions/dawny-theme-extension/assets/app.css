@@ -1,0 +1,42 @@
+/* Dawny Pro Theme Extension Styles */
+.dawny-pro-loaded {
+  --dawny-transition: all 0.3s ease;
+}
+
+/* Luxury Style Variables */
+.dawny-pro-luxury {
+  --dawny-primary: #8B4513;
+  --dawny-secondary: #D4AF37;
+  --dawny-accent: #F5F5DC;
+}
+
+/* Minimal Style Variables */
+.dawny-pro-minimal {
+  --dawny-primary: #2C2C2C;
+  --dawny-secondary: #F8F8F8;
+  --dawny-accent: #E0E0E0;
+}
+
+/* Bold Style Variables */
+.dawny-pro-bold {
+  --dawny-primary: #FF6B35;
+  --dawny-secondary: #004E98;
+  --dawny-accent: #F7931E;
+}
+
+/* Elegant Style Variables */
+.dawny-pro-elegant {
+  --dawny-primary: #6B73FF;
+  --dawny-secondary: #9B59B6;
+  --dawny-accent: #E8E8E8;
+}
+
+/* Loading Animation */
+@keyframes dawnyFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dawny-pro-loaded * {
+  animation: dawnyFadeIn 0.5s ease-out;
+}

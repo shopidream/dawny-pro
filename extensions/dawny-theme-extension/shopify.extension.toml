@@ -1,0 +1,11 @@
+# Learn more about configuring your theme app extension:
+# https://shopify.dev/docs/apps/tools/cli/configuration
+
+api_version = "2024-10"
+
+[[extensions]]
+type = "theme"
+name = "Dawny Pro Theme Extension"
+
+[extensions.settings]
+include_theme_editor_assets = true
