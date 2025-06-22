@@ -1,14 +1,5 @@
 import { authenticate } from "../shopify.server.js";
 
-import { 
-  obfuscateCSS, 
-  obfuscateLiquid, 
-  generateDailyKey,
-  getTransformMap 
-} from "./obfuscation.server.js";
-
-import { checkValidLicense } from "./license.server.js";
-
 // Get list of themes from Shopify
 export async function getThemes(request) {
   try {
@@ -61,6 +52,7 @@ export async function debugAuth(request) {
       console.log('Session accessToken exists:', !!authResult.session.accessToken);
     }
     
+    // Try to get shop info via GraphQL
     const shopResponse = await authResult.admin.graphql(`
       query {
         shop {
@@ -77,208 +69,6 @@ export async function debugAuth(request) {
   } catch (error) {
     console.error('Auth debug error:', error);
     throw error;
-  }
-}
-
-// 구독자에게 Metafield에 복원 키 저장
-async function saveRestoreKeyToMetafield(request, shopDomain, restoreKey) {
-  try {
-    console.log('💾 Saving restore key to Metafield...');
-    console.log('Shop:', shopDomain);
-    console.log('Key:', restoreKey.slice(-8) + '...');
-
-    const authResult = await authenticate.admin(request);
-    
-    const mutation = `
-      mutation metafieldsSet($metafields: [MetafieldsSetInput!]!) {
-        metafieldsSet(metafields: $metafields) {
-          metafields {
-            id
-            namespace
-            key
-            value
-          }
-          userErrors {
-            field
-            message
-          }
-        }
-      }
-    `;
-
-    // Shop GraphQL ID 가져오기
-    const shopResponse = await authResult.admin.graphql(`
-      query {
-        shop {
-          id
-        }
-      }
-    `);
-    const shopData = await shopResponse.json();
-    const shopId = shopData.data.shop.id;
-
-    const variables = {
-      metafields: [
-        {
-          namespace: "dawny",
-          key: "restore_key",
-          type: "single_line_text_field",
-          value: restoreKey,
-          ownerId: shopId
-        }
-      ]
-    };
-
-    const response = await authResult.admin.graphql(mutation, { variables });
-    const result = await response.json();
-
-    if (result.data?.metafieldsSet?.userErrors?.length > 0) {
-      console.error('Metafield errors:', result.data.metafieldsSet.userErrors);
-      return { success: false, error: result.data.metafieldsSet.userErrors[0].message };
-    }
-
-    console.log('✅ Restore key saved to Metafield');
-    return { success: true, metafieldId: result.data?.metafieldsSet?.metafields?.[0]?.id };
-
-  } catch (error) {
-    console.error('❌ Failed to save restore key:', error.message);
-    return { success: false, error: error.message };
-  }
-}
-
-// 변환 맵 기반 복원 템플릿 설치
-async function installRestoreTemplate(request, themeId, transformMap = {}) {
-  try {
-    console.log('🔧 Installing advanced restore template...');
-    console.log('Transform map entries:', Object.keys(transformMap).length);
-    
-    // 변환 맵 기반 복원 CSS 생성
-    let restoreRules = [];
-    
-    Object.entries(transformMap).forEach(([key, obfuscatedValue]) => {
-      if (key.startsWith('font-')) {
-        const originalValue = key.replace('font-', '');
-        restoreRules.push(`    * { font-size: ${originalValue}px !important; }`);
-      }
-      if (key.startsWith('padding-')) {
-        const originalValue = key.replace('padding-', '');
-        restoreRules.push(`    * { padding: ${originalValue}px !important; }`);
-      }
-      if (key.startsWith('margin-')) {
-        const originalValue = key.replace('margin-', '');
-        restoreRules.push(`    * { margin: ${originalValue}px !important; }`);
-      }
-      if (key.startsWith('gap-')) {
-        const originalValue = key.replace('gap-', '');
-        restoreRules.push(`    * { gap: ${originalValue}px !important; }`);
-      }
-      if (key.startsWith('radius-')) {
-        const originalValue = key.replace('radius-', '');
-        restoreRules.push(`    * { border-radius: ${originalValue}px !important; }`);
-      }
-      if (key.startsWith('color-')) {
-        const originalValue = key.replace('color-', '');
-        restoreRules.push(`    * { color: #${originalValue} !important; }`);
-      }
-    });
-    
-    const restoreContent = `{% comment %}
-Dawny Pro - Advanced Random Restore System
-{% endcomment %}
-
-{% if shop.metafields.dawny.restore_key %}
-  <!-- Dawny Pro 고급 복원 CSS -->
-  <style>
-    /* 전체 강제 복원 */
-    body, body * {
-      font-size: inherit !important;
-      padding: revert !important;
-      margin: revert !important;
-      color: revert !important;
-      border-radius: revert !important;
-      gap: revert !important;
-    }
-    
-    /* 기본 타이포그래피 복원 */
-    h1, h1 * { font-size: 2rem !important; }
-    h2, h2 * { font-size: 1.5rem !important; }
-    h3, h3 * { font-size: 1.25rem !important; }
-    p, p *, div, div *, span, span * { font-size: 1rem !important; }
-    
-    /* 변환 맵 기반 복원 */
-${restoreRules.join('\n')}
-  </style>
-  
-  <!-- 복원 키: {{ shop.metafields.dawny.restore_key | slice: -8 }}... -->
-{% endif %}`;
-    
-    const result = await uploadFileToTheme(request, themeId, 'dawny-restore.liquid', restoreContent, 'snippet');
-    console.log('Advanced restore template uploaded:', result.filePath);
-    
-    return { success: true, filePath: result.filePath };
-  } catch (error) {
-    console.error('Failed to install advanced restore template:', error.message);
-    return { success: false, error: error.message };
-  }
-}
-
-// theme.liquid에 복원 템플릿 연결
-async function linkRestoreTemplate(request, themeId) {
-  try {
-    console.log('🔗 Linking restore template to theme.liquid...');
-    
-    const currentContent = await getThemeLiquid(request, themeId);
-    const restoreInclude = `{% render 'dawny-restore' %}`;
-    const restoreComment = `<!-- Dawny Pro Restore -->`;
-    const fullRestoreBlock = `  ${restoreComment}\n  ${restoreInclude}`;
-    
-    if (currentContent.includes(restoreInclude)) {
-      console.log('Restore template already included in theme.liquid');
-      return { success: true, message: 'Already included', action: 'skipped' };
-    }
-    
-    let updatedContent;
-    if (currentContent.includes('</head>')) {
-      updatedContent = currentContent.replace('</head>', `${fullRestoreBlock}\n</head>`);
-    } else {
-      throw new Error('Could not find </head> tag in theme.liquid');
-    }
-    
-    const authResult = await authenticate.admin(request);
-    const numericThemeId = themeId.replace('gid://shopify/OnlineStoreTheme/', '');
-    
-    let shop, accessToken;
-    if (authResult.session) {
-      shop = authResult.session.shop;
-      accessToken = authResult.session.accessToken;
-    }
-    
-    const url = `https://${shop}/admin/api/2023-10/themes/${numericThemeId}/assets.json`;
-    
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        asset: {
-          key: 'layout/theme.liquid',
-          value: updatedContent
-        }
-      })
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to update theme.liquid: ${response.status}`);
-    }
-    
-    console.log('✅ Restore template linked to theme.liquid');
-    return { success: true, message: 'Restore template linked successfully' };
-    
-  } catch (error) {
-    console.error('Failed to link restore template:', error.message);
-    return { success: false, error: error.message };
   }
 }
 
@@ -333,7 +123,10 @@ export async function updateThemeLiquid(request, themeId, cssFileName, action = 
       accessToken = authResult.admin.session.accessToken;
     }
     
+    // Get current theme.liquid content
     const currentContent = await getThemeLiquid(request, themeId);
+    
+    // Create CSS link
     const cssLink = `{{ "${cssFileName}" | asset_url | stylesheet_tag }}`;
     const cssComment = `<!-- Dawny Pro CSS -->`;
     const fullCssBlock = `  ${cssComment}\n  ${cssLink}`;
@@ -341,27 +134,32 @@ export async function updateThemeLiquid(request, themeId, cssFileName, action = 
     let updatedContent;
     
     if (action === 'add') {
+      // Check if CSS is already included
       if (currentContent.includes(cssLink)) {
         console.log('CSS already included in theme.liquid');
         return { success: true, message: 'CSS already included', action: 'skipped' };
       }
       
+      // Add CSS link before </head>
       if (currentContent.includes('</head>')) {
         updatedContent = currentContent.replace('</head>', `${fullCssBlock}\n</head>`);
       } else {
         throw new Error('Could not find </head> tag in theme.liquid');
       }
     } else if (action === 'remove') {
+      // Remove CSS link and comment
       if (!currentContent.includes(cssLink)) {
         console.log('CSS not found in theme.liquid');
         return { success: true, message: 'CSS not found', action: 'skipped' };
       }
       
+      // Remove the CSS block
       updatedContent = currentContent
         .replace(new RegExp(`\\s*${cssComment}\\s*\n?`, 'g'), '')
         .replace(new RegExp(`\\s*${cssLink.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\n?`, 'g'), '');
     }
     
+    // Save updated theme.liquid
     const numericThemeId = themeId.replace('gid://shopify/OnlineStoreTheme/', '');
     const url = `https://${shop}/admin/api/2023-10/themes/${numericThemeId}/assets.json`;
     
@@ -442,10 +240,13 @@ export async function deleteFileFromTheme(request, themeId, filePath) {
 // Upload file using fetch API with proper session handling
 export async function uploadFileToTheme(request, themeId, fileName, fileContent, fileType = 'asset') {
   try {
+    // Get authentication details properly
     const authResult = await debugAuth(request);
+    
+    // Extract numeric theme ID from GraphQL ID
     const numericThemeId = themeId.replace('gid://shopify/OnlineStoreTheme/', '');
     
-    // 파일 경로 결정 (수정됨)
+    // Determine file path based on type
     let filePath;
     switch (fileType) {
       case 'style':
@@ -453,9 +254,6 @@ export async function uploadFileToTheme(request, themeId, fileName, fileContent,
         break;
       case 'section':
         filePath = `sections/${fileName}`;
-        break;
-      case 'snippet':
-        filePath = `snippets/${fileName}`;
         break;
       case 'template':
         filePath = `templates/${fileName}`;
@@ -469,7 +267,9 @@ export async function uploadFileToTheme(request, themeId, fileName, fileContent,
     
     console.log(`Uploading ${fileType} to ${filePath} on theme ${numericThemeId}`);
     
+    // Get shop and access token from the correct location
     let shop, accessToken;
+    
     if (authResult.session) {
       shop = authResult.session.shop;
       accessToken = authResult.session.accessToken;
@@ -488,6 +288,8 @@ export async function uploadFileToTheme(request, themeId, fileName, fileContent,
     }
     
     const url = `https://${shop}/admin/api/2023-10/themes/${numericThemeId}/assets.json`;
+    
+    console.log('Making request to:', url);
     
     const response = await fetch(url, {
       method: 'PUT',
@@ -526,132 +328,64 @@ export async function uploadFileToTheme(request, themeId, fileName, fileContent,
   }
 }
 
-// 메인 설치 함수 - 스마트 난독화 + Metafield 복원
+// Install theme package (CSS or Section) with auto CSS linking
 export async function installThemePackage(request, themeId, cssContent, sectionContent, selectedTheme) {
   try {
-    console.log('=== 🔐 ADVANCED RANDOM OBFUSCATION INSTALLATION STARTING ===');
+    console.log('=== INSTALLATION STARTING ===');
     console.log('Theme ID:', themeId);
     console.log('Has CSS:', !!cssContent);
     console.log('Has Section:', !!sectionContent);
     
-    const authResult = await authenticate.admin(request);
-    const shopDomain = authResult.session.shop;
-    console.log('Shop Domain:', shopDomain);
-    
     let results = [];
-    const dailyKey = generateDailyKey();
     
-    console.log('Generated daily key:', dailyKey);
-    
-    // 구독 상태 확인
-    const hasValidLicense = await checkValidLicense(shopDomain, dailyKey);
-    console.log('Has valid license:', hasValidLicense);
-    
-    // CSS 난독화 및 업로드
+    // Upload CSS if provided
     if (cssContent && themeId) {
       try {
-        console.log('🎨 Processing CSS with advanced random obfuscation...');
-        
-        // CSS 강력한 랜덤 난독화
-        const obfuscatedCSS = obfuscateCSS(cssContent);
-        console.log('Obfuscated CSS length:', obfuscatedCSS.length);
-        
-        // 변환 맵 가져오기 (복원용)
-        const transformMap = getTransformMap();
-        console.log('Transform map created:', Object.keys(transformMap).length, 'entries');
-        
-        // 난독화된 CSS 업로드
-        const cssResult = await uploadFileToTheme(request, themeId, 'style-luxury-v1.css', obfuscatedCSS, 'style');
+        console.log('Attempting CSS upload...');
+        const cssResult = await uploadFileToTheme(request, themeId, 'style-luxury-v1.css', cssContent, 'style');
         console.log('CSS upload result:', cssResult);
-        results.push(`CSS uploaded (obfuscated): ${cssResult.filePath}`);
+        results.push(`CSS uploaded: ${cssResult.filePath}`);
         
-        // CSS를 theme.liquid에 연결
-        console.log('🔗 Linking CSS to theme.liquid...');
+        // Auto-link CSS to theme.liquid
+        console.log('Attempting to link CSS to theme.liquid...');
         const linkResult = await updateThemeLiquid(request, themeId, 'style-luxury-v1.css', 'add');
         results.push(`CSS linked: ${linkResult.message}`);
         
-        // 구독자에게만 복원 시스템 설치
-        if (hasValidLicense) {
-          try {
-            console.log('🔧 Installing restore system for subscriber...');
-            
-            // 복원 템플릿 설치 (변환 맵 포함)
-            const restoreResult = await installRestoreTemplate(request, themeId, transformMap);
-            if (restoreResult.success) {
-              results.push(`Restore template: ${restoreResult.filePath}`);
-              
-              // theme.liquid에 복원 템플릿 연결
-              const linkResult = await linkRestoreTemplate(request, themeId);
-              results.push(`Template linked: ${linkResult.message}`);
-            } else {
-              results.push(`Restore template failed: ${restoreResult.error}`);
-            }
-            
-            // Metafield에 복원 키 저장
-            console.log('🔑 Saving restore key for subscriber...');
-            const metafieldResult = await saveRestoreKeyToMetafield(request, shopDomain, dailyKey);
-            
-            if (metafieldResult.success) {
-              results.push(`Restore key saved: ${dailyKey.slice(-8)}...`);
-              console.log('✅ Subscriber will see original design');
-            } else {
-              results.push(`Restore key failed: ${metafieldResult.error}`);
-              console.log('⚠️ Subscriber will see obfuscated design');
-            }
-            
-          } catch (error) {
-            console.error('Restore system installation failed:', error.message);
-            results.push(`Restore system failed: ${error.message}`);
-          }
-        } else {
-          console.log('🚫 No valid license - user will see obfuscated design');
-          results.push('No license: obfuscated design will be shown');
-        }
-        
       } catch (error) {
-        console.error('CSS processing failed:', error.message);
+        console.error('CSS upload failed:', error.message);
         results.push(`CSS failed: ${error.message}`);
         throw error;
       }
     }
     
-    // Section 난독화 및 업로드
+    // Upload section if provided
     if (sectionContent && themeId) {
       try {
-        console.log('📄 Processing Section with obfuscation...');
-        
-        const obfuscatedLiquid = obfuscateLiquid(sectionContent);
-        console.log('Obfuscated Liquid length:', obfuscatedLiquid.length);
-        
-        const sectionResult = await uploadFileToTheme(request, themeId, 'shoppable-video.liquid', obfuscatedLiquid, 'section');
+        console.log('Attempting section upload...');
+        const sectionResult = await uploadFileToTheme(request, themeId, 'shoppable-video.liquid', sectionContent, 'section');
         console.log('Section upload result:', sectionResult);
-        results.push(`Section uploaded (obfuscated): ${sectionResult.filePath}`);
-        
+        results.push(`Section uploaded: ${sectionResult.filePath}`);
       } catch (error) {
-        console.error('Section processing failed:', error.message);
+        console.error('Section upload failed:', error.message);
         results.push(`Section failed: ${error.message}`);
         throw error;
       }
     }
     
-    console.log('=== 🔐 ADVANCED RANDOM OBFUSCATION INSTALLATION COMPLETE ===');
-    
     return {
       success: true,
-      message: `Smart installation completed: ${results.join(', ')}`,
+      message: `Installation completed: ${results.join(', ')}`,
       details: {
-        css: cssContent ? "Advanced Random Obfuscated & Protected" : "Not provided",
-        section: sectionContent ? "Obfuscated & Protected" : "Not provided",
-        license: `Generated key: ${dailyKey.slice(-8)}...`,
-        obfuscated: !hasValidLicense,
+        css: cssContent ? "Uploaded & Linked" : "Not provided",
+        section: sectionContent ? "Uploaded" : "Not provided",
         results: results
       }
     };
   } catch (error) {
-    console.error('Advanced installation error:', error);
+    console.error('Installation error:', error);
     return {
       success: false,
-      message: `Advanced installation failed: ${error.message}`
+      message: `Installation failed: ${error.message}`
     };
   }
 }
@@ -667,10 +401,12 @@ export async function removeThemePackage(request, themeId, packageType) {
     
     if (packageType === 'css' || packageType === 'all') {
       try {
+        // Remove CSS link from theme.liquid first
         console.log('Removing CSS link from theme.liquid...');
         const unlinkResult = await updateThemeLiquid(request, themeId, 'style-luxury-v1.css', 'remove');
         results.push(`CSS unlinked: ${unlinkResult.message}`);
         
+        // Delete CSS file
         console.log('Deleting CSS file...');
         const deleteResult = await deleteFileFromTheme(request, themeId, 'assets/style-luxury-v1.css');
         results.push(`CSS deleted: ${deleteResult.filePath}`);
@@ -683,6 +419,7 @@ export async function removeThemePackage(request, themeId, packageType) {
     
     if (packageType === 'section' || packageType === 'all') {
       try {
+        // Delete section file
         console.log('Deleting section file...');
         const deleteResult = await deleteFileFromTheme(request, themeId, 'sections/shoppable-video.liquid');
         results.push(`Section deleted: ${deleteResult.filePath}`);
@@ -709,7 +446,7 @@ export async function removeThemePackage(request, themeId, packageType) {
   }
 }
 
-// Get installation info
+// Get installation info (placeholder)
 export async function getInstallationInfo(request) {
   return {
     currentStatus: null,
